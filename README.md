@@ -2,6 +2,8 @@
 
 A simple, lightweight chatbot client built with the Svelte JavaScript framework. Easily embeddable on any website.
 
+<p align="center"><img align="center" src="docs/preview.png"/></p>
+
 ## Features
 
 - Responsive design for desktop and mobile devices
