@@ -1,12 +1,12 @@
-<div class="card card-compact bg-base-200 shadow-xl fixed bottom-28 right-5 max-w-lg">
+<div class="card card-compact bg-base-200 shadow-xl fixed bottom-28 right-5 max-w-lg font-sans">
     <div class="card-body">
         <h2 class="card-title">
             <div class="avatar online placeholder">
                 <div class="bg-neutral-focus text-neutral-content rounded-full w-8">
-                    <img src="https://placeimg.com/192/192/people"/>
+                    <img alt="Bot Avatar" src="{botAvatar}"/>
                 </div>
             </div>
-            <span>Kitten the bot is online !</span>
+            <span>{botName} is online !</span>
         </h2>
 
         <div class="h-60">
@@ -59,7 +59,9 @@
     import VirtualList from 'svelte-virtual-list-ce';
     import {tick} from "svelte";
 
-
+    export let endpoint;
+    export let botName;
+    export let botAvatar;
     let loadingResponse = false;
     let scrollToIndex;
 
@@ -79,7 +81,7 @@
             await tick();
             scrollToIndex(messages.length - 1);
 
-            const response = await fetch("http://localhost:8000", {
+            const response = await fetch(endpoint, {
                 body: JSON.stringify({message: currentMessage}),
                 method: "POST",
                 headers: {
@@ -106,7 +108,7 @@
     let currentMessage = "";
     let messages = [
         {
-            "text": "Nyanpasu~ 👋 ! I'm Kitten the bot! I can help you with your questions about the bot. Just ask me!",
+            "text": `Nyanpasu~ 👋 ! I'm ${botName} the bot! I can help you with your questions about the bot. Just ask me!`,
             "type": "start",
         }
 
