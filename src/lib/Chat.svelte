@@ -1,30 +1,30 @@
-<div class="card card-compact bg-base-200 shadow-xl fixed bottom-28 right-5 max-w-lg font-sans">
-    <div class="card-body">
-        <h2 class="card-title">
-            <div class="avatar online placeholder">
-                <div class="bg-neutral-focus text-neutral-content rounded-full w-8">
+<div class="chatbot-card chatbot-card-compact chatbot-bg-base-200 chatbot-shadow-xl chatbot-fixed chatbot-bottom-28 chatbot-right-5 chatbot-max-w-lg chatbot-font-sans">
+    <div class="chatbot-card-body">
+        <h2 class="chatbot-card-title">
+            <div class="chatbot-avatar chatbot-online chatbot-placeholder">
+                <div class="chatbot-bg-neutral-focus chatbot-text-neutral-content chatbot-rounded-full chatbot-w-8">
                     <img alt="Bot Avatar" src="{botAvatar}"/>
                 </div>
             </div>
             <span>{botName} is online !</span>
         </h2>
 
-        <div class="h-60">
+        <div class="chatbot-h-60">
             <VirtualList bind:scrollToIndex items={messages} let:item>
                 {#if item.loading}
-                    <div class="chat chat-start">
-                        <div class="chat-bubble flex space-x-2 items-center">
-                            <div class="bg-current h-2 aspect-square rounded-full animate-bounce"
+                    <div class="chatbot-chat chatbot-chat-start">
+                        <div class="chatbot-chat-bubble chatbot-flex chatbot-space-x-2 chatbot-items-center">
+                            <div class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
                                  style="animation-delay: 0.1s;"></div>
-                            <div class="bg-current h-2 aspect-square rounded-full animate-bounce"
+                            <div class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
                                  style="animation-delay: 0.2s;"></div>
-                            <div class="bg-current h-2 aspect-square rounded-full animate-bounce"
+                            <div class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
                                  style="animation-delay: 0.3s;"></div>
                         </div>
                     </div>
                 {:else }
-                    <div class={`chat chat-${item.type}`}>
-                        <div class={`chat-bubble ${item.type === 'end' ? "chat-bubble-primary" : ''}`}>{item.text}</div>
+                    <div class={`chatbot-chat chatbot-chat-${item.type}`}>
+                        <div style="background-color: {item.type === 'end' ? mainColor : ''};" class={`chatbot-chat-bubble ${item.type === 'end' ? "" : ''}`}>{item.text}</div>
                     </div>
                 {/if}
 
@@ -32,18 +32,20 @@
         </div>
 
 
-        <div class="card-action mt-2 space-y-2">
-            <div class="space-x-2">
+        <div class="chatbot-card-action chatbot-mt-2 chatbot-space-y-2 chatbot-w-full">
+            <div class="chatbot-space-x-2">
                 {#each suggestions as suggestion}
-                    <button class="btn btn-outline btn-xs"
+                    <button class="chatbot-btn chatbot-btn-outline chatbot-btn-xs"
                             on:click={() => currentMessage = suggestion}>{suggestion}</button>
                 {/each}
             </div>
-            <form on:submit|preventDefault={submitMessage} class="flex items-center space-x-2">
+            <form on:submit|preventDefault={submitMessage}
+                  class="chatbot-flex chatbot-items-center chatbot-space-x-2 chatbot-w-full">
 
-                <input bind:value={currentMessage} type="text" placeholder="Type here" class="input w-full"/>
-                <button disabled={loadingResponse} type="submit" class="btn btn-md">
-                    <svg class="h-4" viewBox="0 0 24 24">
+                <input bind:value={currentMessage} type="text" placeholder="Type here"
+                       class="chatbot-input chatbot-w-full chatbot-max-w-full"/>
+                <button disabled={loadingResponse} type="submit" class="chatbot-btn chatbot-btn-md">
+                    <svg class="chatbot-h-4" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
                     </svg>
                 </button>
@@ -62,6 +64,7 @@
     export let endpoint;
     export let botName;
     export let botAvatar;
+    export let mainColor;
     let loadingResponse = false;
     let scrollToIndex;
 
@@ -88,8 +91,6 @@
                     "Content-Type": "application/json"
                 }
             }).then(value => value.json());
-
-            console.log(response);
 
             currentMessage = '';
 
