@@ -65,7 +65,7 @@
     let loadingResponse = false;
     let scrollToIndex;
 
-    let suggestions: string[] = ["Give me some advices about cats", "Help me get to somewhere", "I want to know more about cats"];
+    let suggestions: string[] = ["Where can I sleep ?", "Where can I eat ?", "How to go to the venue from the airport ?"];
 
     async function submitMessage() {
         try {
@@ -89,9 +89,17 @@
                 }
             }).then(value => value.json());
 
+            console.log(response);
+
             currentMessage = '';
 
-            messages[messages.length - 1] = {text: response.message, type: 'start'};
+            if (response.length === 0) {
+                messages[messages.length - 1] = {text: "I don't understand", type: 'start'};
+            } else {
+                messages[messages.length - 1] = {text: response[0].text, type: 'start'};
+            }
+
+
             // scroll to bottom
             await tick();
             await tick();
