@@ -1,12 +1,12 @@
 <div class="chatbot-card chatbot-card-compact chatbot-bg-base-200 chatbot-shadow-xl chatbot-fixed chatbot-bottom-28 chatbot-right-5 chatbot-max-w-lg chatbot-font-sans">
     <div class="chatbot-card-body">
         <h2 class="chatbot-card-title">
-            <div class="chatbot-avatar chatbot-online chatbot-placeholder">
+            <div class:chatbot-online={online} class="chatbot-avatar chatbot-placeholder">
                 <div class="chatbot-bg-neutral-focus chatbot-text-neutral-content chatbot-rounded-full chatbot-w-8">
                     <img alt="Bot Avatar" src="{botAvatar}"/>
                 </div>
             </div>
-            <span>{botName} is online !</span>
+            <span>{botName} is {online ? "online" : "offline"} !</span>
         </h2>
 
         <div class="chatbot-h-60">
@@ -59,7 +59,7 @@
 
 <script lang="ts">
     import VirtualList from 'svelte-virtual-list-ce';
-    import {tick} from "svelte";
+    import { onMount, tick } from "svelte";
 
     export let endpoint;
     export let botName;
@@ -67,11 +67,37 @@
     export let mainColor;
     let loadingResponse = false;
     let scrollToIndex;
+    export let demo = false;
+
+    let online = false;
 
     let suggestions: string[] = ["Where can I sleep ?", "Where can I eat ?", "How to go to the venue from the airport ?"];
 
+
+    onMount(() => {
+        checkOnline();
+    })
+
+    async function checkOnline() {
+        try {
+            const response = await fetch(endpoint, {
+                body: JSON.stringify({message: "Hello"}),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(value => value.json());
+            online = true;
+        } catch (e) {
+            online = false;
+        }
+    }
+
     async function submitMessage() {
         try {
+            if (demo) {
+                return;
+            }
             loadingResponse = true;
             messages = [...messages, {text: currentMessage, type: 'end'}, {
                 text: "...is writing",
@@ -108,7 +134,10 @@
 
 
         } catch (e) {
-            console.log(e)
+            console.error(e)
+            // remove loading message
+            messages[messages.length - 1] = {text: "Humm 🤔... It seems that your message did not find the correct wire.", type: 'start'};
+            await checkOnline();
         } finally {
             loadingResponse = false;
         }
@@ -117,7 +146,7 @@
     let currentMessage = "";
     let messages = [
         {
-            "text": `Nyanpasu~ 👋 ! I'm ${botName} the bot! I can help you with your questions about the bot. Just ask me!`,
+            "text": `Hello 👋 ! I'm ${botName} the bot! I can help you with your questions. Just ask me!`,
             "type": "start",
         }
 
