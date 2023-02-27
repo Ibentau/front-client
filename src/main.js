@@ -10,5 +10,5 @@ import BubbleButton from "./lib/BubbleButton.svelte";
 //     },
 //   });
 // } else {
-  window.ChatBot = BubbleButton;
+window.ChatBot = BubbleButton;
 // }
