@@ -6,8 +6,10 @@ export default defineConfig({
   build: {
     lib: {
       entry: './src/main.js',
-      name: 'MyLibrary',
-    }
+      name: 'Ibentau',
+      fileName: 'ibentau',
+      formats: ['es'],
+    },
   },
   plugins: [svelte()]
 })
