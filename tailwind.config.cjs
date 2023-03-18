@@ -139,7 +139,7 @@ module.exports = {
       96: "384px",
     },
   },
-  safelist: ["chat-start", "chat-end"],
+  safelist: ["chatbot-chat-start", "chatbot-chat-end"],
   plugins: [require("daisyui")],
   daisyui: {
     styled: true,
