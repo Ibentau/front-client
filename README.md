@@ -16,8 +16,9 @@ A simple, lightweight chatbot client built with the Svelte JavaScript framework.
 1. Add the following script and link tag to the head of your HTML file:
 
 ```html
-<script src="/path/to/chatbot-client.js"></script>
-<link rel="stylesheet" href="/path/to/chatbot-client.css">
+
+<script src="https://github.com/Ibentau/front-client/releases/download/VERSION/ibentau.js"></script>
+<link rel="stylesheet" href="https://github.com/Ibentau/front-client/releases/download/VERSION/style.css">
 ```
 
 2. Add the following script tag at the end of your HTML file:
