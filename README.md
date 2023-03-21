@@ -18,14 +18,13 @@ A simple, lightweight chatbot client built with the Svelte JavaScript framework.
 ```html
 
 <script id="ibentau-chatbot-script" async type="module" crossorigin
-        src="https://github.com/Ibentau/front-client/releases/download/VERSION/ibentau.js"></script>
-<link rel="stylesheet" href="https://github.com/Ibentau/front-client/releases/download/VERSION/style.css">
+        src="https://cdn.jsdelivr.net/gh/Ibentau/front-client@main/dist/ibentau.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Ibentau/front-client@main/dist/style.css">
 ```
 
 2. Add the following script tag at the end of your HTML file:
 
 ```html
-
 <script>
   document.querySelector('#ibentau-chatbot-script').addEventListener('load', function() {
     new ChatBot({
