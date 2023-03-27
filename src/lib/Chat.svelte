@@ -88,29 +88,10 @@
   let scrollToIndex;
   export let demo = false;
 
-  let online = false;
+  let online = true;
 
   let suggestions: string[] = ["Where is the venue?", "Things to do"];
 
-
-  onMount(() => {
-    checkOnline();
-  });
-
-  async function checkOnline() {
-    try {
-      const response = await fetch(endpoint, {
-        body: JSON.stringify({ message: "Hello" }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(value => value.json());
-      online = true;
-    } catch (e) {
-      online = false;
-    }
-  }
 
   async function submitMessage() {
     try {
@@ -169,7 +150,7 @@
         text: "Humm 🤔... It seems that your message did not find the correct wire.",
         type: "start"
       };
-      await checkOnline();
+      online = false;
     } finally {
       loadingResponse = false;
     }
