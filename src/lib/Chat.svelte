@@ -95,15 +95,16 @@
 
 
   async function submitMessage() {
-
-    if (currentMessage.trim() === '') {
-      return;
-    }
-    else{
-      try {
+  
+    try {
       if (demo) {
         return;
       }
+
+      if (currentMessage.trim() === '') {
+      return;
+      }
+
       loadingResponse = true;
       messages = [...messages, { text: currentMessage, type: "end" }, {
         text: "...is writing",
@@ -161,8 +162,6 @@
       loadingResponse = false;
     }
       
-    }
-
   }
 
   let currentMessage = "";
