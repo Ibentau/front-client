@@ -61,7 +61,7 @@
       <form on:submit|preventDefault={submitMessage}
             class="chatbot-flex chatbot-items-center chatbot-space-x-2 chatbot-w-full">
 
-        <input bind:value={currentMessage} type="text" placeholder="Type here"
+        <input maxlength="200" bind:value={currentMessage} type="text" placeholder="Type here"
                class="chatbot-input chatbot-w-full chatbot-max-w-full" />
 
         <button disabled={loadingResponse} type="submit" class="chatbot-btn chatbot-btn-md">
@@ -103,6 +103,11 @@
 
       if (currentMessage.trim() === '') {
       return;
+      }
+
+      if (currentMessage.length > 200) {
+        currentMessage = '';
+        return;
       }
 
       loadingResponse = true;
