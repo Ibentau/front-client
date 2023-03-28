@@ -95,7 +95,13 @@
 
 
   async function submitMessage() {
-    try {
+
+    if (currentMessage.trim() === '') {
+      alert('You are not allowed to enter an empty message');
+      return;
+    }
+    else{
+      try {
       if (demo) {
         return;
       }
@@ -124,7 +130,7 @@
       currentMessage = "";
 
       if (response.length === 0) {
-        alert('Le message ne peut pas être vide');
+        messages[messages.length - 1] = { text: "I don't understand", type: "start" };
       } else {
         let buttons = [];
         if (response.length > 1 && response[1].custom) {
@@ -155,6 +161,9 @@
     } finally {
       loadingResponse = false;
     }
+      
+    }
+
   }
 
   let currentMessage = "";
