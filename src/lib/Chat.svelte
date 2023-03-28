@@ -63,6 +63,7 @@
 
         <input bind:value={currentMessage} type="text" placeholder="Type here"
                class="chatbot-input chatbot-w-full chatbot-max-w-full" />
+
         <button disabled={loadingResponse} type="submit" class="chatbot-btn chatbot-btn-md">
           <svg class="chatbot-h-4" viewBox="0 0 24 24">
             <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
@@ -94,10 +95,16 @@
 
 
   async function submitMessage() {
+  
     try {
       if (demo) {
         return;
       }
+
+      if (currentMessage.trim() === '') {
+      return;
+      }
+
       loadingResponse = true;
       messages = [...messages, { text: currentMessage, type: "end" }, {
         text: "...is writing",
@@ -154,6 +161,7 @@
     } finally {
       loadingResponse = false;
     }
+      
   }
 
   let currentMessage = "";
