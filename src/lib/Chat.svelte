@@ -63,6 +63,7 @@
 
         <input bind:value={currentMessage} type="text" placeholder="Type here"
                class="chatbot-input chatbot-w-full chatbot-max-w-full" />
+
         <button disabled={loadingResponse} type="submit" class="chatbot-btn chatbot-btn-md">
           <svg class="chatbot-h-4" viewBox="0 0 24 24">
             <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
@@ -123,7 +124,7 @@
       currentMessage = "";
 
       if (response.length === 0) {
-        messages[messages.length - 1] = { text: "I don't understand", type: "start" };
+        alert('Le message ne peut pas être vide');
       } else {
         let buttons = [];
         if (response.length > 1 && response[1].custom) {
