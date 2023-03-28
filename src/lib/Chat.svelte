@@ -97,7 +97,6 @@
   async function submitMessage() {
 
     if (currentMessage.trim() === '') {
-      alert('You are not allowed to enter an empty message');
       return;
     }
     else{
