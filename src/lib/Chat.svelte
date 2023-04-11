@@ -180,7 +180,8 @@
     }[]
   }[] = [
     {
-      "text": `Hello 👋 ! I'm ${botName} the bot! I can help you with your questions. Just ask me!`,
+      "text": `Hello 👋 ! I'm ${botName} the bot! I can help you with your questions about the ICT4S conference. If you need information about the
+      conference address, the speakers  who will intervene or a place to eat, Just ask me!`,
       "type": "start"
     }
 
