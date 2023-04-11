@@ -2,7 +2,7 @@
     import Chat from "./Chat.svelte";
 
     let opened = false;
-    export let endpoint = "http://127.0.0.1:5005/webhooks/rest/webhook";
+    export let endpoint = "http://127.0.0.1:3000/chat";
     export let botName = "Ibentau Assistant";
     export let botAvatar = "https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2022-07/kitten-playing-575035.jpg?h=b1b36da8&itok=ySAJgYQ2";
     export let mainColor = "#00bfa5";
