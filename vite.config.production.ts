@@ -5,7 +5,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 export default defineConfig({
   build: {
     lib: {
-      entry: './src/main.js',
+      entry: './src/main.prod.js',
       name: 'Ibentau',
       fileName: 'ibentau',
       formats: ['es'],

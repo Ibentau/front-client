@@ -1,53 +1,22 @@
 <div
         class="chatbot-card chatbot-card-compact chatbot-bg-base-200 chatbot-shadow-xl chatbot-fixed chatbot-bottom-28 chatbot-right-5 chatbot-max-w-lg chatbot-font-sans">
     <div class="chatbot-card-body">
-        <h2 class="chatbot-card-title">
+        <div class="chatbot-card-title">
             <div class:chatbot-online={online} class="chatbot-avatar chatbot-placeholder">
                 <div class="chatbot-bg-neutral-focus chatbot-text-neutral-content chatbot-rounded-full chatbot-w-8">
                     <img alt="Bot Avatar" src="{botAvatar}"/>
                 </div>
             </div>
             <span>{botName} is {online ? "online" : "offline"} !</span>
-        </h2>
+        </div>
 
         <div class="chatbot-h-60">
             <VirtualList bind:scrollToIndex items={messages} let:item>
                 {#if item.loading}
-                    <div class="chatbot-chat chatbot-chat-start">
-                        <div class="chatbot-chat-bubble chatbot-flex chatbot-space-x-2 chatbot-items-center">
-                            <div
-                                    class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
-                                    style="animation-delay: 0.1s;"></div>
-                            <div
-                                    class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
-                                    style="animation-delay: 0.2s;"></div>
-                            <div
-                                    class="chatbot-bg-current chatbot-h-2 chatbot-aspect-square chatbot-rounded-full chatbot-animate-bounce"
-                                    style="animation-delay: 0.3s;"></div>
-                        </div>
-                    </div>
+                    <Bubble loading={true} mainColor={mainColor} isFromMe={false}></Bubble>
                 {:else }
-                    <div>
-                        <div class={`chatbot-chat chatbot-chat-${item.type}`}>
-                            <div style="background-color: {item.type === 'end' ? mainColor : ''};"
-                                 class={`chatbot-chat-bubble ${item.type === 'end' ? "" : ''}`}>{item.text}</div>
-                        </div>
-                        {#if item.buttons}
-                            <div class="chatbot-flex chatbot-gap-2">
-                                {#each item.buttons as button}
-                                    <a style="background-color: {mainColor};" href="{button.value}" target="_blank"
-                                       class="chatbot-btn chatbot-btn-sm chatbot-space-x-2">
-                                        <svg class="chatbot-h-4 chatbot-fill-current" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 24 24"><title>open-in-new</title>
-                                            <path
-                                                    d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
-                                        </svg>
-                                        <span>{button.text}</span></a>
-                                {/each}
-                            </div>
-                        {/if}
-                    </div>
-
+                    <Bubble sources={item.sources ?? []} mainColor={mainColor}
+                            isFromMe={item.type === 'end'}>{item.text}</Bubble>
                 {/if}
 
             </VirtualList>
@@ -83,6 +52,7 @@
 <script lang="ts">
     import VirtualList from "svelte-virtual-list-ce";
     import {onMount, tick} from "svelte";
+    import Bubble from "./Bubble.svelte";
 
     export let endpoint;
     export let botName;
@@ -118,10 +88,10 @@
 
 
             loadingResponse = true;
-            messages = [...messages, {text: currentMessage, type: "end"}, {
+            messages = [...messages, {text: currentMessage, type: "end", sources: []}, {
                 text: "...is writing",
                 type: "start",
-                loading: true
+                loading: true, sources: []
             }];
 
             // scroll to bottom
@@ -129,23 +99,24 @@
             await tick();
             scrollToIndex(messages.length - 1);
 
+            const savedCurrentMessages = currentMessage;
+            currentMessage = "";
             const response = await fetch(endpoint, {
-                body: JSON.stringify({text: currentMessage}),
+                body: JSON.stringify({text: savedCurrentMessages}),
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-            currentMessage = "";
 
 
             if (!response.ok) {
-                messages[messages.length - 1] = {text: "I don't understand", type: "start"};
+                messages[messages.length - 1] = {text: "I don't understand", type: "start", sources: []};
                 return;
             }
 
             const responseJson = await response.json();
-            messages[messages.length - 1] = {text: responseJson.text, type: "start", buttons: []};
+            messages[messages.length - 1] = {text: responseJson.text, type: "start", sources: responseJson.sources};
             suggestions = responseJson.suggestions;
 
 
@@ -158,7 +129,7 @@
             // remove loading message
             messages[messages.length - 1] = {
                 text: "Humm 🤔... It seems that your message did not find the correct wire.",
-                type: "start"
+                type: "start", sources: []
             };
             online = false;
         } finally {
@@ -177,14 +148,12 @@
         text: string,
         type: "start" | "end",
         loading?: boolean
-        buttons?: {
-            text: string,
-            value: string
-        }[]
+        sources: string[]
     }[] = [
         {
             "text": `Hello 👋 ! I'm ${botName} the bot! I can help you with your questions. Just ask me!`,
-            "type": "start"
+            "type": "start",
+            "sources": []
         }
 
     ];
