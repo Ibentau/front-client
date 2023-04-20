@@ -6,5 +6,7 @@ new BubbleButton({
   props: {
     botName: "ICT4S Assistant",
     mainColor: "#337ab7",
+
   },
+
 });

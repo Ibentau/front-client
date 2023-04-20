@@ -6,11 +6,15 @@
     export let botName = "Ibentau Assistant";
     export let botAvatar = "https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2022-07/kitten-playing-575035.jpg?h=b1b36da8&itok=ySAJgYQ2";
     export let mainColor = "#00bfa5";
+
+    export let footer = "Powered by Ibentau";
 </script>
 
 
 {#if opened}
-    <Chat endpoint="{endpoint}" botName="{botName}" botAvatar="{botAvatar}" mainColor="{mainColor}"></Chat>
+    <Chat endpoint="{endpoint}" botName="{botName}" botAvatar="{botAvatar}" mainColor="{mainColor}" >
+        <p>{@html footer}</p>
+    </Chat>
 {/if}
 <button on:click={() => opened = !opened}
         style="background-color: {mainColor};"
