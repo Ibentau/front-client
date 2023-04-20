@@ -43,6 +43,10 @@
                 </button>
             </form>
 
+            <div class="chatbot-text-gray-500">
+                <slot></slot>
+            </div>
+
 
         </div>
 
